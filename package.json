@@ -1,0 +1,23 @@
+{
+  "name": "taxiapp-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Plataforma Multi-tenant para gestión de taxis, conductores, móviles y pasajeros",
+  "workspaces": [
+    "shared",
+    "backend",
+    "admin-panel"
+  ],
+  "scripts": {
+    "build:shared": "npm --workspace=@taxiapp/shared run build",
+    "build:backend": "npm --workspace=@taxiapp/backend run build",
+    "build:admin": "npm --workspace=@taxiapp/admin-panel run build",
+    "build": "npm run build:shared && npm run build:backend && npm run build:admin",
+    "dev:backend": "npm --workspace=@taxiapp/backend run dev",
+    "dev:admin": "npm --workspace=@taxiapp/admin-panel run dev"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  }
+}

@@ -1,0 +1,228 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #0b0f17;
+  color: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background-color: #111827;
+  border-right: 1px solid #1f2937;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 0.5rem;
+}
+
+.brand-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f59e0b;
+  color: #111827;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+.brand-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f9fafb;
+}
+
+.brand-sub {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.nav-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+  text-transform: uppercase;
+  padding: 0 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.nav-group-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #f59e0b;
+  padding: 0.35rem 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.nav-btn {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #d1d5db;
+  padding: 0.55rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.nav-btn:hover {
+  background-color: #1f2937;
+  color: #ffffff;
+}
+
+.nav-btn.active {
+  background-color: rgba(245, 158, 11, 0.16);
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.main-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  height: 64px;
+  background-color: #111827;
+  border-bottom: 1px solid #1f2937;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tenant-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tenant-picker label {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.tenant-picker select {
+  background-color: #1f2937;
+  color: #f9fafb;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.content {
+  padding: 1.75rem;
+  max-width: 1100px;
+}
+
+.card {
+  background-color: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.card h1 {
+  font-size: 1.35rem;
+  color: #f9fafb;
+  margin-bottom: 0.35rem;
+}
+
+.card p.subtitle {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.meta-pill {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: #1f2937;
+  color: #fbbf24;
+  border: 1px solid #374151;
+  margin-bottom: 0.75rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.field-list,
+.rule-list {
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+.section-heading {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f9fafb;
+  margin-bottom: 0.6rem;
+}
+
+.dept-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.dept-chip {
+  background-color: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8rem;
+  color: #e5e7eb;
+}
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}

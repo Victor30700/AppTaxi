@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+admin-panel/dist/
+backend/dist/
+shared/dist/
+*.tsbuildinfo
+
+# Local planning notes
+plan.md
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+.vscode/*
+!.vscode/extensions.json
+
+# Flutter / Dart
+.dart_tool/
+.packages
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
