@@ -14,7 +14,9 @@
     "build:admin": "npm --workspace=@taxiapp/admin-panel run build",
     "build": "npm run build:shared && npm run build:backend && npm run build:admin",
     "dev:backend": "npm --workspace=@taxiapp/backend run dev",
-    "dev:admin": "npm --workspace=@taxiapp/admin-panel run dev"
+    "dev:admin": "npm --workspace=@taxiapp/admin-panel run dev",
+    "db:migrate": "npm --workspace=@taxiapp/backend run migrate",
+    "db:seed": "npm --workspace=@taxiapp/backend run seed"
   },
   "engines": {
     "node": ">=22.0.0",
