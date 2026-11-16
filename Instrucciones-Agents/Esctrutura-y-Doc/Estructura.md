@@ -10,15 +10,18 @@ Este documento define la estructura oficial de carpetas y módulos del monorepo 
 TaxiApp/
 ├── .gitignore                         # Reglas de ignorado (node_modules, .env, dist, build, *.tsbuildinfo)
 ├── .nvmrc                             # Versión fijada de Node.js (22 LTS)
-├── package.json                       # npm workspaces ("shared", "backend", "admin-panel") y scripts raíz
+├── package.json                       # npm workspaces ("shared", "backend", "admin-panel") y scripts raíz (build, db:migrate, db:seed)
 ├── package-lock.json
 ├── README.md                          # Guía rápida de instalación, ramas Git y arranque local
 ├── chat.md                            # Requerimientos funcionales iniciales del equipo
+├── image.png                          # Referencia visual oficial del Panel Admin ("Taxi Gold & Carbon Obsidian")
 ├── Instrucciones-Agents/              # Documentación interna y contexto para agentes/equipo
 │   ├── chat.md
 │   ├── Context.md
 │   └── Esctrutura-y-Doc/
-│       └── Estructura.md              # Este archivo
+│       ├── Estructura.md              # Este archivo
+│       ├── APIs.md                    # Contratos completos de APIs REST y WebSockets
+│       └── DESIGN.md                  # Sistema de Diseño UI oficial (paleta, tipografía, tokens y componentes)
 ├── shared/                            # @taxiapp/shared — Catálogos, enums y DTOs compartidos
 ├── backend/                           # @taxiapp/backend — API REST + WebSockets (NestJS 11)
 ├── admin-panel/                       # @taxiapp/admin-panel — Panel SuperAdmin / Admin (React 19 + Vite 6)
@@ -54,31 +57,29 @@ Arquitectura modular por dominio, con aislamiento estricto por `tenant_id` y pre
 
 ```text
 backend/
-├── .env.example                       # Variables requeridas (PORT, DATABASE_URL, SUPABASE_*, REDIS_*, JWT_*)
-├── package.json
+├── .env                               # Variables locales reales (ignorado en Git)
+├── .env.example                       # Variables requeridas (PORT, DATABASE_URL, SUPABASE_*, JWT_*, SEED_*, REDIS_*)
+├── package.json                       # Incluye scripts dev, build, start, migrate y seed
 ├── tsconfig.json
 └── src/
     ├── main.ts                        # Bootstrap NestJS, prefijo /api/v1, CORS, ValidationPipe y Swagger (/docs)
-    ├── app.module.ts                  # Módulo raíz que orquesta database, auth y módulos de negocio
-    ├── app.controller.ts              # Endpoints base (/api/v1/health, /api/v1/catalogs/bolivia-departments)
+    ├── app.module.ts                  # Módulo raíz que importa DatabaseModule y módulos de negocio
+    ├── app.controller.ts              # Endpoints base (/api/v1/health con check DB/PostGIS, /api/v1/catalogs/bolivia-departments)
     ├── common/
-    │   ├── decorators/
-    │   │   ├── current-tenant.decorator.ts  # @CurrentTenant() -> lee header x-tenant-id / JWT
-    │   │   ├── current-user.decorator.ts    # @CurrentUser() -> extrae usuario autenticado del request
-    │   │   └── roles.decorator.ts           # @Roles(...roles) -> define roles permitidos
-    │   ├── guards/
-    │   │   ├── jwt-auth.guard.ts            # Valida token Bearer JWT
-    │   │   ├── roles.guard.ts               # Valida UserRole (SUPERADMIN, TENANT_ADMIN, etc.)
-    │   │   └── tenant.guard.ts              # Resuelve y valida el tenant activo por petición
-    │   └── interceptors/
-    │       └── tenant-context.interceptor.ts
-    ├── database/
-    │   ├── database.module.ts         # Conexión PostgreSQL + PostGIS (Supabase) y Storage client
-    │   ├── migrations/                # Migraciones SQL / ORM (tenants, users, drivers, vehicles, mobiles, kardex)
+    │   ├── tenant.decorator.ts        # @CurrentTenant() -> lee header x-tenant-id
+    │   ├── decorators/                # (Fase 3) @CurrentUser(), @Roles(...roles)
+    │   ├── guards/                    # (Fase 3) JwtAuthGuard, RolesGuard, TenantGuard
+    │   └── interceptors/              # (Fase 3) TenantContextInterceptor
+    ├── database/                      # [IMPLEMENTADO - Fase 2] Conexión Supabase PostgreSQL + PostGIS + Storage
+    │   ├── database.module.ts         # Módulo @Global() que exporta DatabaseService
+    │   ├── database.service.ts        # Pool pg + SupabaseClient + checkConnection()
+    │   ├── migrate.ts                 # Ejecutor `npm --workspace=@taxiapp/backend run migrate`
+    │   ├── migrations/
+    │   │   └── 001_initial_schema.sql # Extensiones pgcrypto/postgis + 12 tablas Multi-tenant
     │   └── seeds/
-    │       └── seed-superadmins.ts    # Script `npm run seed` que crea las 3 cuentas SUPERADMIN y tenants iniciales
-    └── modules/
-        ├── auth/                      # POST /auth/login, POST /auth/register-passenger, GET /auth/me (JWT + bcrypt)
+    │       └── seed-superadmins.ts    # Script `npm run seed`: bucket taxiapp-media, 3 SUPERADMIN, 2 Tenants, Marcas/Modelos
+    └── modules/                       # (Fase 3) Módulos de negocio NestJS
+        ├── auth/                      # POST /auth/login, POST /auth/register-passenger, GET /auth/me (JWT + bcryptjs)
         ├── tenants/                   # CRUD de empresas/radiotaxis y creación de cuentas TENANT_ADMIN (solo SUPERADMIN)
         ├── drivers/                   # CRUD de conductores + subida de fotos (perfil y CI) a Supabase Storage
         ├── vehicles/                  # Catálogo en cascada Marcas -> Modelos + CRUD de vehículos + foto vehículo
@@ -92,7 +93,7 @@ backend/
 
 ## 4. Detalle de `admin-panel/` (`@taxiapp/admin-panel` — React 19 + Vite 6)
 
-Panel web con diseño **SuperAdmin Multi-tenant**, autenticación JWT y el módulo **`ADMINISTRACIÓN -> Conductores`**.
+Panel web con diseño **SuperAdmin Multi-tenant** (tokens y estética definidos en `Instrucciones-Agents/Esctrutura-y-Doc/DESIGN.md`), autenticación JWT y el módulo **`ADMINISTRACIÓN -> Conductores`**.
 
 ```text
 admin-panel/
@@ -102,7 +103,7 @@ admin-panel/
 ├── vite.config.ts
 └── src/
     ├── main.tsx                       # Punto de entrada React
-    ├── index.css                      # Estilos globales del panel
+    ├── index.css                      # Estilos globales y Design Tokens ("Taxi Gold & Carbon Obsidian")
     ├── App.tsx                        # Enrutador principal y shell del panel
     ├── lib/
     │   └── api-client.ts              # Cliente HTTP con interceptores de Authorization (JWT) y header x-tenant-id
