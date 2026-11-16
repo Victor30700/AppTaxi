@@ -32,3 +32,6 @@ npm-debug.log*
 mobile/build/
 mobile/.flutter-plugins
 mobile/.flutter-plugins-dependencies
+
+#agents
+.agents

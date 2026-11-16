@@ -50,6 +50,8 @@ shared/
 
 ## 3. Detalle de `backend/` (`@taxiapp/backend` — NestJS 11)
 
+> **Documento maestro de arquitectura interna:** Consulta [`backend/ARCHITECTURE.md`](../../backend/ARCHITECTURE.md) para ver la separación completa de capas y carpetas (Monolito Modular + Hexagonal Pragmática + EDA en módulos core `tracking`, `pricing`, `rides`, `dispatch`, `payments`; capas estándar en `auth`, `tenants` y `fleet/`; aislamiento Multi-Tenant con `nestjs-cls` + Prisma `$extends` y los patrones `Strategy`, `State`, `Domain Events` y `Specification`).
+
 Arquitectura modular por dominio, con aislamiento estricto por `tenant_id` y prefijo global `/api/v1`.
 
 ```text
