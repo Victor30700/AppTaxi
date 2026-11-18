@@ -2,22 +2,25 @@
   "name": "@taxiapp/backend",
   "version": "0.1.0",
   "private": true,
-  "description": "Backend API Multi-tenant de TaxiApp con NestJS",
+  "description": "Backend API de TaxiApp con NestJS",
   "scripts": {
-    "dev": "tsx watch src/main.ts",
+    "dev": "node scripts/dev.cjs",
     "build": "tsc",
     "start": "node dist/main.js",
-    "migrate": "tsx src/database/migrate.ts",
-    "seed": "tsx src/database/seeds/seed-superadmins.ts"
+    "migrate": "tsx src/infrastructure/database/migrate.ts",
+    "seed": "tsx src/infrastructure/database/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
     "@nestjs/swagger": "^11.0.0",
+    "@supabase/server": "^1.9.2",
     "@supabase/supabase-js": "^2.119.0",
     "@taxiapp/shared": "*",
     "bcryptjs": "^3.0.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
     "dotenv": "^18.0.10",
     "pg": "^8.23.1",
     "reflect-metadata": "^0.2.2",
@@ -25,6 +28,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/multer": "^2.3.0",
     "@types/node": "^22.0.0",
     "@types/pg": "^8.23.1",
     "tsx": "^4.19.2",

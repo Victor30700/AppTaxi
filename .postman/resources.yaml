@@ -1,0 +1,11 @@
+workspace:
+  id: afdcc200-8969-4bd5-85cb-453bbed1d126
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+cloudResources:
+  collections:
+    ../postman/collections/AppTaxi API: 60011263-e6d36b89-4488-43e6-8a8d-2e6b4b54ee7d
+  environments:
+    ../postman/environments/AppTaxi Local.environment.yaml: 60011263-7d269957-0f97-4edf-bd35-fdc506ddc3f0
+  globals:
+    ../postman/globals/workspace.globals.yaml: 0482035c-9408-4098-8153-24b62b136a8f
